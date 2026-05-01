@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(open \"/Users/marcoguzman/Documents/Claude/Dags för match/index.html\")",
+      "mcp__Claude_Preview__preview_start",
+      "Read(//usr/local/**)",
+      "Read(//opt/homebrew/**)",
+      "Read(//Users/marcoguzman/.pyenv/**)",
+      "Bash(php --version)",
+      "Bash(ruby --version)",
+      "Bash(ruby -run -e httpd \"/Users/marcoguzman/Documents/Claude/Dags för match\" -p 8080)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:8080/)",
+      "Bash(kill %1)",
+      "Bash(mkdir -p /tmp/dags-for-match)",
+      "Bash(cp \"/Users/marcoguzman/Documents/Claude/Dags för match/index.html\" /tmp/dags-for-match/index.html)"
+    ]
+  }
+}
