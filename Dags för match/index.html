@@ -663,7 +663,7 @@ function renderGkSelects() {
     label.textContent = `Period ${p+1}`;
     const sel = document.createElement('select');
     sel.id = `gkSel${p}`;
-    sel.innerHTML = '<option value="">– Välj MV –</option>';
+    sel.innerHTML = '<option value="">Välj Målvakt</option>';
     selectedPlayers.forEach(name => {
       // Disable players already chosen as GK in another period
       const usedElsewhere = gkPerPeriod.some((g, i) => i !== p && g === name);
