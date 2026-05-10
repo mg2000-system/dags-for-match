@@ -581,8 +581,8 @@ function renderPlayerGrid() {
 
   // Separator före gästspelare
   const divider = document.createElement('div');
-  divider.style.cssText = 'grid-column: 1 / -1; border-top: 1px solid var(--border); margin: 6px 0 2px; display: flex; align-items: center; gap: 8px;';
-  divider.innerHTML = '<span style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--gray);white-space:nowrap;">Gäster</span><div style="flex:1;border-top:1px solid var(--border);"></div>';
+  divider.style.cssText = 'grid-column: 1 / -1; margin: 6px 0 2px;';
+  divider.innerHTML = '<span style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--gray);">Gäster</span>';
   grid.appendChild(divider);
 
   GUEST_PLAYERS.forEach(name => {
