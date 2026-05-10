@@ -548,8 +548,10 @@
 <script>
 const ALL_PLAYERS = [
   "Astor","Erwin","Frank-Lucas","Jack","Joar","Louie","Magnus","Max",
-  "Gäst 1","Gäst 2","Gäst 3","Melvin","Milton","Noel","Oliver","Omar","Ronny","Tiago","Uno","Viggo","Yididya"
+  "Melvin","Milton","Noel","Oliver","Omar","Ronny","Tiago","Uno","Viggo","Yididya"
 ];
+const GUEST_PLAYERS = ["Gäst 1","Gäst 2","Gäst 3"];
+const ALL_PLAYERS_COMBINED = [...ALL_PLAYERS, ...GUEST_PLAYERS];
 
 const POSITIONS    = ["MV","Back","Back","Back","Mitt","Mitt","Anfall"];
 const PERIOD_MINS  = 20;
@@ -568,7 +570,22 @@ let plan = null;
 function renderPlayerGrid() {
   const grid = document.getElementById('playerGrid');
   grid.innerHTML = '';
+
   ALL_PLAYERS.forEach(name => {
+    const btn = document.createElement('button');
+    btn.className = 'player-btn' + (selectedPlayers.includes(name) ? ' selected' : '');
+    btn.textContent = name;
+    btn.onclick = () => togglePlayer(name, btn);
+    grid.appendChild(btn);
+  });
+
+  // Separator före gästspelare
+  const divider = document.createElement('div');
+  divider.style.cssText = 'grid-column: 1 / -1; border-top: 1px solid var(--border); margin: 6px 0 2px; display: flex; align-items: center; gap: 8px;';
+  divider.innerHTML = '<span style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--gray);white-space:nowrap;">Gäster</span><div style="flex:1;border-top:1px solid var(--border);"></div>';
+  grid.appendChild(divider);
+
+  GUEST_PLAYERS.forEach(name => {
     const btn = document.createElement('button');
     btn.className = 'player-btn' + (selectedPlayers.includes(name) ? ' selected' : '');
     btn.textContent = name;
