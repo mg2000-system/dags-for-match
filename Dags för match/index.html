@@ -530,7 +530,7 @@
 <div class="container" id="setupView" style="display:none">
 
   <div style="margin-bottom:16px;">
-    <button class="btn btn-secondary" onclick="goToTeamView()" style="margin:0;padding:8px 14px;font-size:0.85rem;">← Ändra lag</button>
+    <button class="btn btn-secondary" id="backBtn" style="margin:0;padding:8px 14px;font-size:0.85rem;">← Ändra lag</button>
   </div>
 
   <div class="steps" id="stepDots">
@@ -571,10 +571,7 @@
       <div class="period-gk" id="gkSelects"></div>
       <div id="gkWarning" class="warning-text" style="display:none"></div>
     </div>
-    <div style="display:flex; gap:10px; margin-top:8px;">
-      <button class="btn btn-secondary" onclick="goToStep0()" style="margin-top:0; flex:1;">← Tillbaka</button>
-      <button class="btn btn-primary" id="btnGenerate" onclick="generatePlan()" style="margin-top:0; flex:2;">Nu kör vi →</button>
-    </div>
+    <button class="btn btn-primary" id="btnGenerate" onclick="generatePlan()" style="margin-top:8px;width:100%;">Nu kör vi →</button>
   </div>
 
 </div>
@@ -728,7 +725,15 @@ function goToTeamView() {
 function goToStep0() {
   document.getElementById('step0').style.display = '';
   document.getElementById('step1').style.display = 'none';
+  document.getElementById('resultView').classList.add('result-hidden');
+  document.getElementById('setupView').style.display = '';
+  renderPlayerGrid();
+  updateSelectionInfo();
   setDot(0);
+  const btn = document.getElementById('backBtn');
+  btn.textContent = '← Ändra lag';
+  btn.onclick = goToTeamView;
+  window.scrollTo(0, 0);
 }
 
 function goToStep1() {
@@ -737,6 +742,9 @@ function goToStep1() {
   document.getElementById('step0').style.display = 'none';
   document.getElementById('step1').style.display = '';
   setDot(1);
+  const btn = document.getElementById('backBtn');
+  btn.textContent = '← Tillbaka';
+  btn.onclick = goToStep0;
 }
 
 function setDot(active) {
@@ -1185,11 +1193,12 @@ function renderTotalBars(totalMins) {
 }
 
 function resetAll() {
-  goToTeamView();
+  plan = null;
+  goToStep0();
 }
 
 // ---- INIT ----
-// Start on team selection screen
+document.getElementById('backBtn').onclick = goToTeamView;
 </script>
 </body>
 </html>
