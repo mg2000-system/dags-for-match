@@ -463,6 +463,36 @@
     margin: 0;
   }
 
+  .team-select-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--bench);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    color: var(--white);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    padding: 16px 18px;
+    cursor: pointer;
+    text-align: left;
+    letter-spacing: 0.5px;
+    transition: all 0.15s;
+    width: 100%;
+  }
+  .team-select-btn:hover { border-color: var(--green-light); background: var(--card-bg); }
+
+  .team-badge {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 800;
+    padding: 3px 8px;
+    border-radius: 6px;
+    letter-spacing: 1px;
+    flex-shrink: 0;
+  }
+
   @media (max-width: 480px) {
     .period-gk { grid-template-columns: 1fr; }
     .lineup-grid { grid-template-columns: 1fr; }
@@ -478,7 +508,31 @@
   <p>3 perioder · 20 min · 7 mot 7</p>
 </header>
 
-<div class="container" id="setupView">
+<!-- TEAM SELECTION VIEW -->
+<div class="container" id="teamView">
+  <div class="card">
+    <h2><span>🏆</span> Välj lag</h2>
+    <div style="display:flex;flex-direction:column;gap:12px;margin-top:4px;">
+      <button class="team-select-btn" onclick="selectTeam('Lag Vit')">
+        <span class="team-badge" style="background:rgba(248,249,244,0.15);color:var(--white);">VIT</span>
+        Lag Vit
+        <span style="color:var(--gray);font-size:0.8rem;font-weight:400;">18 spelare</span>
+      </button>
+      <button class="team-select-btn" onclick="selectTeam('Lag Blå')">
+        <span class="team-badge" style="background:rgba(66,135,245,0.2);color:#89b4fa;">BLÅ</span>
+        Lag Blå
+        <span style="color:var(--gray);font-size:0.8rem;font-weight:400;">25 spelare</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="container" id="setupView" style="display:none">
+
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+    <button class="btn btn-secondary" onclick="goToTeamView()" style="margin:0;padding:8px 14px;font-size:0.85rem;">← Lag</button>
+    <span id="teamLabel" style="font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:700;color:var(--yellow);text-transform:uppercase;letter-spacing:1px;"></span>
+  </div>
 
   <div class="steps" id="stepDots">
     <div class="step-dot active" id="dot0"></div>
@@ -546,12 +600,13 @@
 </div>
 
 <script>
-const ALL_PLAYERS = [
-  "Astor","Erwin","Frank-Lucas","Jack","Joar","Louie","Magnus","Max",
-  "Melvin","Milton","Noel","Oliver","Omar","Ronny","Tiago","Uno","Viggo","Yididya"
-];
+const TEAMS = {
+  'Lag Vit': ["Astor","Erwin","Frank-Lucas","Jack","Joar","Louie","Magnus","Max","Melvin","Milton","Noel","Oliver","Omar","Ronny","Tiago","Uno","Viggo","Yididya"],
+  'Lag Blå': ["Abbe","Aldo","Augustin","Axel","Elis","Elias","Frank","Gael","Gabriel","Hjalmar","Julian","Louie R","Louie T","Matvii","Micah","Natan","Nils","Otis","Otto","Sam","Sigge","Sixten","Sven","Vincent","Willam"]
+};
 const GUEST_PLAYERS = ["Gäst 1","Gäst 2","Gäst 3"];
-const ALL_PLAYERS_COMBINED = [...ALL_PLAYERS, ...GUEST_PLAYERS];
+
+let currentTeamPlayers = [];
 
 const POSITIONS    = ["MV","Back","Back","Back","Mitt","Mitt","Anfall"];
 const PERIOD_MINS  = 20;
@@ -571,7 +626,7 @@ function renderPlayerGrid() {
   const grid = document.getElementById('playerGrid');
   grid.innerHTML = '';
 
-  ALL_PLAYERS.forEach(name => {
+  currentTeamPlayers.forEach(name => {
     const btn = document.createElement('button');
     btn.className = 'player-btn' + (selectedPlayers.includes(name) ? ' selected' : '');
     btn.textContent = name;
@@ -646,6 +701,28 @@ function selectFormation(f) {
   document.getElementById('btn321').classList.toggle('active', f === '3-2-1');
   document.getElementById('btn231').classList.toggle('active', f === '2-3-1');
   document.getElementById('btn33').classList.toggle('active', f === '3-3');
+}
+
+// ---- TEAM SELECTION ----
+function selectTeam(teamName) {
+  currentTeamPlayers = TEAMS[teamName];
+  selectedPlayers = [];
+  gkPerPeriod = [null, null, null];
+  plan = null;
+  document.getElementById('teamLabel').textContent = teamName;
+  document.getElementById('teamView').style.display = 'none';
+  document.getElementById('setupView').style.display = '';
+  renderPlayerGrid();
+  updateSelectionInfo();
+  goToStep0();
+  window.scrollTo(0, 0);
+}
+
+function goToTeamView() {
+  document.getElementById('setupView').style.display = 'none';
+  document.getElementById('resultView').classList.add('result-hidden');
+  document.getElementById('teamView').style.display = '';
+  window.scrollTo(0, 0);
 }
 
 // ---- STEP NAVIGATION ----
@@ -1109,20 +1186,11 @@ function renderTotalBars(totalMins) {
 }
 
 function resetAll() {
-  document.getElementById('resultView').classList.add('result-hidden');
-  document.getElementById('setupView').style.display = '';
-  // Keep selectedPlayers and gkPerPeriod intact – just clear the plan
-  plan = null;
-  // Re-render grid with existing selection preserved
-  renderPlayerGrid();
-  updateSelectionInfo();
-  goToStep1();
-  window.scrollTo(0, 0);
+  goToTeamView();
 }
 
 // ---- INIT ----
-renderPlayerGrid();
-updateSelectionInfo();
+// Start on team selection screen
 </script>
 </body>
 </html>
