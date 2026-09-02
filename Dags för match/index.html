@@ -529,9 +529,8 @@
 
 <div class="container" id="setupView" style="display:none">
 
-  <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
-    <button class="btn btn-secondary" onclick="goToTeamView()" style="margin:0;padding:8px 14px;font-size:0.85rem;">← Lag</button>
-    <span id="teamLabel" style="font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:700;color:var(--yellow);text-transform:uppercase;letter-spacing:1px;"></span>
+  <div style="margin-bottom:16px;">
+    <button class="btn btn-secondary" onclick="goToTeamView()" style="margin:0;padding:8px 14px;font-size:0.85rem;">← Ändra lag</button>
   </div>
 
   <div class="steps" id="stepDots">
@@ -543,7 +542,7 @@
   <!-- STEP 0: Choose players -->
   <div id="step0">
     <div class="card">
-      <h2>Spelare och formation</h2>
+      <h2 id="stepHeading">Spelare och formation</h2>
       <div class="info-banner">
         💡 Välj 8–11 spelare och formation.
       </div>
@@ -709,7 +708,7 @@ function selectTeam(teamName) {
   selectedPlayers = [];
   gkPerPeriod = [null, null, null];
   plan = null;
-  document.getElementById('teamLabel').textContent = teamName;
+  document.getElementById('stepHeading').textContent = teamName.toUpperCase() + ': Spelare & Formation';
   document.getElementById('teamView').style.display = 'none';
   document.getElementById('setupView').style.display = '';
   renderPlayerGrid();
