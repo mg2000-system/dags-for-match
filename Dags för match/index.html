@@ -724,7 +724,6 @@ function goToStep0() {
   document.getElementById('setupView').style.display = '';
   renderPlayerGrid();
   updateSelectionInfo();
-  setDot(0);
   const btn = document.getElementById('backBtn');
   btn.textContent = '← Tillbaka';
   btn.onclick = goToTeamView;
@@ -736,7 +735,6 @@ function goToStep1() {
   renderGkSelects();
   document.getElementById('step0').style.display = 'none';
   document.getElementById('step1').style.display = '';
-  setDot(1);
   const btn = document.getElementById('backBtn');
   btn.textContent = '← Tillbaka';
   btn.onclick = goToStep0;
