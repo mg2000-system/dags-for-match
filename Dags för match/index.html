@@ -530,7 +530,7 @@
 <div class="container" id="setupView" style="display:none">
 
   <div style="margin-bottom:16px;">
-    <button class="btn btn-secondary" id="backBtn" style="margin:0;padding:8px 14px;font-size:0.85rem;">← Ändra lag</button>
+    <button class="btn btn-secondary" id="backBtn" style="margin:0;padding:8px 14px;font-size:0.85rem;">← Tillbaka</button>
   </div>
 
   <div class="steps" id="stepDots">
@@ -731,7 +731,7 @@ function goToStep0() {
   updateSelectionInfo();
   setDot(0);
   const btn = document.getElementById('backBtn');
-  btn.textContent = '← Ändra lag';
+  btn.textContent = '← Tillbaka';
   btn.onclick = goToTeamView;
   window.scrollTo(0, 0);
 }
