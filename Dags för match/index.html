@@ -740,12 +740,6 @@ function goToStep1() {
   btn.onclick = goToStep0;
 }
 
-function setDot(active) {
-  for (let i = 0; i < 3; i++) {
-    const d = document.getElementById('dot' + i);
-    d.className = 'step-dot' + (i < active ? ' done' : i === active ? ' active' : '');
-  }
-}
 
 function renderGkSelects() {
   const cont = document.getElementById('gkSelects');
@@ -811,7 +805,6 @@ function generatePlan() {
   document.getElementById('setupView').style.display = 'none';
   document.getElementById('resultView').classList.remove('result-hidden');
   window.scrollTo(0, 0);
-  setDot(2);
 }
 
 // ===========================================================
